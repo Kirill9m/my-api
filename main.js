@@ -3,7 +3,7 @@ class ApiBackend {
         this.apiUrl = apiUrl;
     }
 
-    async loadAllChallenges() {
+    async loadAllFilms() {
         const response = await fetch(this.apiUrl + '/movies');
         if (!response.ok) {
             throw new Error(`Failed to fetch movies: ${response.statusText}`);
@@ -21,7 +21,7 @@ class LoadFilms {
 
     async add(listElem) {
         try {
-            const challengesFromApi = await this.backend.loadAllChallenges();
+            const challengesFromApi = await this.backend.loadAllFilms();
 
             challengesFromApi.forEach(filmData => {
                 const film = this.render(filmData);
