@@ -16,17 +16,17 @@ class ApiBackend {
 class LoadFilms {
     constructor(backend) {
         this.backend = backend;
-        this.challenges = [];
+        this.films = [];
     }
 
-    async start(listElem) {
+    async add(listElem) {
         try {
             const challengesFromApi = await this.backend.loadAllChallenges();
 
-            challengesFromApi.forEach(challengeData => {
-                const challenge = this.render(challengeData);
-                this.challenges.push(challenge);
-                listElem.appendChild(challenge);
+            challengesFromApi.forEach(filmData => {
+                const film = this.render(filmData);
+                this.films.push(film);
+                listElem.appendChild(film);
             });
         } catch (error) {
             console.error('Error(trying to load film list):', error);
@@ -52,4 +52,4 @@ class LoadFilms {
 const backend = new ApiBackend("https://my-api-7hk4.onrender.com");
 const filmList = new LoadFilms(backend);
 
-filmList.start(document.querySelector('.movies-container'));
+filmList.add(document.querySelector('.movies-container'));
