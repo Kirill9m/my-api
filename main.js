@@ -19,8 +19,10 @@ class LoadFilms {
         this.films = [];
     }
 
-    async add(listElem) {
+    async add(listElem, loadingElem) {
         try {
+            loadingElem.style.display = 'block';
+
             const challengesFromApi = await this.backend.loadAllFilms();
 
             challengesFromApi.forEach(filmData => {
@@ -30,6 +32,8 @@ class LoadFilms {
             });
         } catch (error) {
             console.error('Error(trying to load film list):', error);
+        } finally {
+            loadingElem.style.display = 'none';
         }
     }
 
@@ -49,7 +53,14 @@ class LoadFilms {
     }
 }
 
+const loadingMessage = document.createElement('div');
+loadingMessage.classList.add('loading-message');
+loadingMessage.innerText = 'Api is starting\nLoading movies... Please wait.';
+document.querySelector('.loading-message').appendChild(loadingMessage);
+
+loadingMessage.style.display = 'none';
+
 const backend = new ApiBackend("https://my-api-7hk4.onrender.com");
 const filmList = new LoadFilms(backend);
 
-filmList.add(document.querySelector('.movies-container'));
+filmList.add(document.querySelector('.movies-container'), loadingMessage);
